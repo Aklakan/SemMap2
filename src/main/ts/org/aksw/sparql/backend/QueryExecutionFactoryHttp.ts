@@ -1,5 +1,6 @@
 ///<reference path='./QueryExecution.ts'/>
 ///<reference path='./../syntax/all.ts'/>
+///<reference path='./../../commons/util/all.ts'/>
 module org.aksw.sparql.backend {
 
 	import syntax = org.aksw.sparql.syntax;
@@ -23,8 +24,10 @@ module org.aksw.sparql.backend {
 			return this.defaultGraphUris;
 		}
 
-        createQueryExecutionFromString(query : string) : QueryExecution {
-        	return null;
+        createQueryExecutionFromString(queryString : string) : QueryExecution {
+        	var result = new QueryExecutionHttp(this.serviceUri, this.defaultGraphUris, queryString, {})
+        	
+        	return result;
         }
 		
         //createQueryExecution(query : string) : QueryExecution;

@@ -1,42 +1,64 @@
+///<reference path="./../../../../declarations/jquery.d.ts" />
+///<reference path="./../../../../declarations/underscore.d.ts" />
 module org.aksw.sparql.backend {
+
 	export class QueryExecutionHttp {
 
 		private serviceUri : string;
-	    private defaultGraphUris : string[];
+		private defaultGraphUris : string[];
+		private queryString : string;
+		private params : any;
+	    
 		
-		constructor(serviceUri : string, defaultGraphUris : string[]) {
+		constructor(serviceUri : string, defaultGraphUris : string[], queryString : string, params : any) {
 			this.serviceUri = serviceUri;
 			this.defaultGraphUris = defaultGraphUris;
+			this.queryString = queryString;
+			this.params = params;
+			//this.params = 
 		}
+		
+		execSelect() : any {
+			return null;
+		}
+		
+		execAsk() : bool {
+			return false;
+		}
+		
+		execConstruct() : any {
+			return null;
+		}
+		
 		
 		/**
 		 * Executes a query
 		 * 
 		 */
-		function executeAny(query : object) : any {
+		executeAny(queryString : string) : any {
 			
 			//console.log("Preparing SPARQL query: " + query);
 			
 			// TODO Make this a switch
-			if(true) {
-				if(query.flatten) {
-					var before = query;
-					query = before.flatten();
-					
-					//console.log("FLATTEN BEFORE: " + before, before);
-					//console.log("FLATTEN AFTER:"  + query, query);
-				}
-			}
+//			if(true) {
+//				if(query.flatten) {
+//					var before = query;
+//					query = before.flatten();
+//					
+//					//console.log("FLATTEN BEFORE: " + before, before);
+//					//console.log("FLATTEN AFTER:"  + query, query);
+//				}
+//			}
 			
 			
 			// Force the query into a string
-			var queryString : string = "" + query;
+			//var queryString = "" + query;
 			
 			if(!queryString) {
 				console.error("Empty queryString - should not happen");
 			}
 
-			var options : object = {};
+			var options : any = {};
 			var serviceUri : string = this.serviceUri;
 			
 			/*
@@ -47,11 +69,12 @@ module org.aksw.sparql.backend {
 			*/
 			
 			
-			var result = executeQuery(serviceUri, this.defaultGraphUris, queryString, options);
+			var result = QueryExecutionHttp.executeQuery(serviceUri, this.defaultGraphUris, queryString, options);
 				
 			return result;
-		};
+		}
 		
+
 		
 		/**
 		 * Adapted from http://www.openlinksw.com/blog/~kidehen/?id=1653
@@ -61,7 +84,7 @@ module org.aksw.sparql.backend {
 		 * @param callback
 		 * @param format
 		 */
-		static function executeQuery(baseURL : string, defaultGraphUris : string[], query : string, options : object) {
+		static executeQuery(baseURL : string, defaultGraphUris : string[], query : string, options : any) {
 			if(!options) {
 				options = {};
 			}

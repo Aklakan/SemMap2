@@ -1,0 +1,1 @@
+Declarations from: https://github.com/borisyankov/DefinitelyTyped

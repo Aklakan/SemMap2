@@ -1,3 +1,7 @@
+///<reference path="./../../../../../declarations/OpenLayers.d.ts" />
+///xxx<reference path="./../../../../../declarations/jquery.d.ts" />
+///<reference path="./../../../../../declarations/underscore.d.ts" />
+
 ///<reference path='./../../sparql/backend/all.ts'/>
 
 module org.aksw.semmap.app {
