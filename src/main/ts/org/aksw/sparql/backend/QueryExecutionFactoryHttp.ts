@@ -1,7 +1,9 @@
 ///<reference path='./QueryExecution.ts'/>
 ///<reference path='./../syntax/all.ts'/>
-export module org.aksw.sparql.backend {
+module org.aksw.sparql.backend {
 
+	import syntax = org.aksw.sparql.syntax;
+	
 	export class QueryExecutionFactoryHttp
 	    implements QueryExecutionFactory
 	{
@@ -18,7 +20,7 @@ export module org.aksw.sparql.backend {
 		}
 		
 		get DefaultGraphUris() : string[] {
-			return defaultGraphUris;
+			return this.defaultGraphUris;
 		}
 
         createQueryExecutionFromString(query : string) : QueryExecution {
@@ -26,7 +28,7 @@ export module org.aksw.sparql.backend {
         }
 		
         //createQueryExecution(query : string) : QueryExecution;
-        createQueryExecutionFromQuery(query : Query) : QueryExecution {
+        createQueryExecutionFromQuery(query : syntax.Query) : QueryExecution {
         	return null;
         }
 

@@ -1,4 +1,4 @@
-export module org.aksw.sparql.backend {
+module org.aksw.sparql.backend {
 	export class QueryExecutionHttp {
 
 		private serviceUri : string;

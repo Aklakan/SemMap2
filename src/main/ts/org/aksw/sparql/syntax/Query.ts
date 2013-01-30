@@ -1,4 +1,4 @@
-export module org.aksw.sparql.syntax {
+module org.aksw.sparql.syntax {
 	export class Query {
 		private value : string;
 	}
