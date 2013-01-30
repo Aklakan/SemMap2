@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<groupId>org.aksw</groupId>
+	<artifactId>semmap</artifactId>
+	<version>0.2-SNAPSHOT</version>
+	<name>SemMap</name>
+	<!-- <packaging>js</packaging> -->
+	<description>A JavaScript application for facetted browsing of geospatial RDF data.</description>
+
+	<organization>
+		<name>University of Leizpig</name>
+		<url>http://informatik.uni-leipzig.de</url>
+	</organization>
+
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+	</properties>
+
+	<pluginRepositories>
+		<!-- <pluginRepository> -->
+		<!-- <id>typescript-maven-plugin</id> -->
+		<!-- <url>https://raw.github.com/ppedregal/typescript-maven-plugin/master/repo</url> -->
+		<!-- </pluginRepository> -->
+	</pluginRepositories>
+
+	<build>
+		<finalName>semmap</finalName>
+
+		<pluginManagement>
+			<plugins>
+				<plugin>
+					<groupId>com.ppedregal.typescript</groupId>
+					<artifactId>typescript-maven-plugin</artifactId>
+					<version>0.0.1-SNAPSHOT</version>
+				</plugin>
+			</plugins>
+		</pluginManagement>
+
+
+		<plugins>
+			<plugin>
+				<groupId>com.ppedregal.typescript</groupId>
+				<artifactId>typescript-maven-plugin</artifactId>
+			</plugin>
+		</plugins>
+	</build>
+
+</project>
