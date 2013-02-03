@@ -3,11 +3,8 @@ $(window).load(function() {
 });
 
 
-//var map, layer;
-
-
 var fetchSampleData = function() {
-	var sparqlService = new sparql.SparqlServiceHttp("http://linkedgeodata.org/sparql", [], "lib/SparqlProxyPHP/current/sparql-proxy.php");
+	var sparqlService = new sparql.SparqlServiceHttp(config.sparqlServiceUrl, [], config.sparqlProxyUrl);
 	
 	//var queryStr = "Construct { ?s ?p ?o . ?s <http://geovocab.org/geometry#geometry> ?g . ?g ?p2 ?o2 } { ?s ?p ?o . ?s <http://geovocab.org/geometry#geometry> ?g . ?g ?p2 ?o2 } Limit 100"
 	
@@ -22,6 +19,8 @@ var fetchSampleData = function() {
 		+ "}";
 		;	
 
+	console.log("Query is ", queryStr);
+		
 	var result = sparqlService.executeSelect(queryStr);
 	return result;
 }
@@ -39,6 +38,8 @@ function init() {
 	});
 	*/
 
+	/* Actually I'd like to wrap markers with a backbone view
+	 * but I need think more about how to do that properly
 	var MarkerView = Backbone.View.extend({
 		events: {
 			'mapevent': function() {
@@ -46,7 +47,9 @@ function init() {
 			}
 		}
 	});
-
+*/
+	
+	
 	var MapModel = Backbone.Model.extend({
 		/**
 		 * The collection of resources that should be displayed. 
@@ -90,6 +93,15 @@ function init() {
 		console.log("mapevent");
 	});
 	
+	mapView.on("markerclick", function(ev, data) {
+		//console.log("click", ev, data);
+		var id = data.id;
+		var json = data.json;
+		
+		alert("Clicked " + id + " with data " + JSON.stringify(json));
+	});
+	
+	
 	mapView.render();
 	
 	
@@ -130,46 +142,3 @@ AppDemo.prototype = {
 	}		
 }
 
-
-
-
-///**
-// * Wraps a Node of an RDF graph.
-// * Enables resource centric access to the data
-// */
-//Entity = function(graph, id) {
-//	this.id = id;
-//};
-//
-//Entity.prototype = {
-//		
-//		/**
-//		 * Returns the single value of a specific property.
-//		 * If there is multiple values, an exception is raised. 
-//		 * 
-//		 */
-//		getValue: function(propertyName) {
-//			
-//		},
-//		
-//		getValues: function(propertyName) {
-//			
-//		},
-//		
-//};
-//
-//
-//var RdfModel = function() {
-//	this.json;
-//}
-//
-//
-//RdfModel.prototype = {
-//	
-//		
-//	listEntities: function() {
-//		
-//	},
-//		
-//		
-//};

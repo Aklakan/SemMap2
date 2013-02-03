@@ -41,6 +41,10 @@ var semmap;
 			this.map.events.register("zoomend", this, function(event) {
 				self.trigger("mapevent", event, {"map": self.map});
 			});
+			
+			$(this.el).on("ssb_mapmarkerclick", function(ev, data) {
+				self.trigger("markerclick", ev, data);
+			});
 			    
 	      return this;
 	    },
@@ -77,9 +81,14 @@ var semmap;
 	    		var lats = rdfGraph.getFloats(uri, "http://www.w3.org/2003/01/geo/wgs84_pos#lat");
 	    		
 	    		
-	    		var tmp = json[uri];
-	    		var attributes = _.clone(tmp);
+	    		//var tmp = json[uri];
+	    		var jsonClone = _.clone(json);
 
+	    		var attributes = {
+	    				id: uri,
+	    				json: jsonClone
+	    		}
+	    		
 	    		var labels = rdfGraph.getStrings(uri, "http://www.w3.org/2000/01/rdf-schema#label", ["en", "de", ""]);
 	    		if(labels.length > 0) {
 	    			attributes["label"] = labels[0];

@@ -217,6 +217,7 @@ $.widget("ui.ssb_map", {
 		/*
 		 * Forward some simple events
 		 */		
+		/*
 		this.map.events.register("moveend", this, function(event) {
 			self._trigger("onMapEvent", event, {"map": self.map});
 		});
@@ -224,6 +225,7 @@ $.widget("ui.ssb_map", {
 		this.map.events.register("zoomend", this, function(event) {
 			self._trigger("onMapEvent", event, {"map": self.map});
 		});
+		*/
 	    
 		var self = this;
 		
@@ -297,7 +299,7 @@ $.widget("ui.ssb_map", {
 						var data = feature.data;
 					
 						var event = null;
-						self._trigger("onMarkerClick", event, data);
+						self._trigger("markerclick", event, data);
 						
 					
 				} else if(geometry instanceof OpenLayers.Geometry.Polygon) {

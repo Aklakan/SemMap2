@@ -91,7 +91,6 @@ RdfGraph.prototype = {
 				result = [];
 			}
 			
-			console.log("eueu", result);
 			return result;
 		},
 		

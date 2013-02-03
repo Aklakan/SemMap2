@@ -5,7 +5,10 @@ var RDFAUTHOR_BASE = "lib/RDFauthor/current/";
 
 (function() {
 
+	//config.sparqlServiceUrl = "http://linkedgeodata.org/sparql";
+	config.sparqlServiceUrl = "http://cstadler.aksw.org/swseminar/sparql";
 
+	config.sparqlProxyUrl = "lib/SparqlProxyPHP/current/sparql-proxy.php";
 
 	var isSvgSupported = SvgUtils.supportsSvg(); 
 	var suffix = isSvgSupported ? "svg" : "gif";
