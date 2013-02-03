@@ -1,6 +1,7 @@
 var semmap;
 (function($, _) {
 
+	
 (function(ns) {
 
 	ns.MapView = Backbone.View.extend({
@@ -11,10 +12,15 @@ var semmap;
 //	      'click span.delete': 'remove'
 	    },    
 	    initialize: function() {
-	      _.bindAll(this, 'render', 'unrender', 'remove'); // every function that uses 'this' as the current object should be in here
+	      _.bindAll(this, 'updateView', 'render', 'unrender', 'remove'); // every function that uses 'this' as the current object should be in here
 
-	      this.model.bind('change', this.render, this);
-	      this.model.bind('remove', this.unrender, this);
+	      this.model.on('change:resources change:json', this.updateView, this);
+	      //var itemCollection = this.model.get("resources");
+	      // TODO Add support for updates when modifying the resource data
+	      //var graphModel = this.model.get("resources");
+	      
+	      //itemCollection.on('add', this.addItem, this);
+	      //itemCollection.on('remove', this.removeItem, this);
 	    },
 	    render: function() {
 
@@ -22,11 +28,10 @@ var semmap;
 	      this.$el.ssb_map();
 	      
 	      // Get the actual widget (not the domElement, but the object)
-	      var legacyWidget = this.$el.data("ssb_map");
+	      this.legacyWidget = this.$el.data("ssb_map");
 	      
 	      // Extract the map
-	      this.map = legacyWidget.map;
-	      
+	      this.map = this.legacyWidget.map;
 	      var self = this;
 	      
 			this.map.events.register("moveend", this, function(event) {
@@ -42,9 +47,56 @@ var semmap;
 	    unrender: function() {
 	      $(this.el).remove();
 	    },
+	    
 	    remove: function(){
 	      this.model.destroy();
-	    }
+	    },
+	    
+	    
+	    updateView: function(model) {
+	    	var self = this;
+	    	
+	    	var oldUris = model.previous("uris");
+	    	var newUris = model.get("uris");
+	    	
+	    	var addedUris = _.difference(newUris, oldUris);
+	    	var removedUris = _.difference(oldUris, newUris);
+			console.log("[MapView::updateView@addedUris]", addedUris);
+			console.log("[MapView::updateView@removedUris]", removedUris);
+	    	
+	    	var json = model.get("json");
+	    	var rdfGraph = new RdfGraph(json);
+	    	
+	    	self.legacyWidget.removeItems(removedUris);
+	    	
+	    	// For all addedUris, extract the geometric information
+	    	for(var i = 0; i < addedUris.length; ++i) {
+	    		var uri = addedUris[i];
+	    		
+	    		var lons = rdfGraph.getFloats(uri, "http://www.w3.org/2003/01/geo/wgs84_pos#long");
+	    		var lats = rdfGraph.getFloats(uri, "http://www.w3.org/2003/01/geo/wgs84_pos#lat");
+	    		
+	    		
+	    		var tmp = json[uri];
+	    		var attributes = _.clone(tmp);
+
+	    		var labels = rdfGraph.getStrings(uri, "http://www.w3.org/2000/01/rdf-schema#label", ["en", "de", ""]);
+	    		if(labels.length > 0) {
+	    			attributes["label"] = labels[0];
+	    		}
+	    		
+	    			
+	    		if(lats.length == 1 && lons.length == 1) {
+	    			var lon = lons[0];
+	    			var lat = lats[0];
+	    			
+	    			var lonlat = new OpenLayers.LonLat(lon, lat);
+	    			
+	    			console.log("Created marker at ", lon, lat, uri);
+	    			self.legacyWidget.addItem(uri, lonlat, attributes, true);
+	    		}
+	    	}
+	    },
 	});
 	
 })(semmap || (semmap = {}));

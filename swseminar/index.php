@@ -34,6 +34,7 @@
     <script type="text/javascript" src="js/main.js"></script>
 	<script type="text/javascript" src="js/SparqlServiceHttp.js"></script>
     <script type="text/javascript" src="js/jquery.ssb.map.js"></script>
+    <script type="text/javascript" src="js/RdfGraph.js"></script>
     <script type="text/javascript" src="js/MapView.js"></script>
 
   </head>

@@ -39,12 +39,12 @@ $.widget("ui.ssb_map", {
 
 		
 		//this.nodeToPos = this.options.nodeToPos;
-		this.nodeToFeature = this.options.nodeToFeature;
-		this.nodeToLabel = this.options.nodeToLabel;
-		this.wayToFeature = this.options.wayToFeature;
+		this.nodeToFeature = {}; //this.options.nodeToFeature;
+		this.nodeToLabel = {}; //this.options.nodeToLabel;
+		this.wayToFeature = {}; //this.options.wayToFeature;
 		
-		this.nodeToTypes = this.options.nodeToTypes;
-		this.schemaIcons = this.options.schemaIcons;
+		this.nodeToTypes = {}; //this.options.nodeToTypes;
+		this.schemaIcons = {}; //this.options.schemaIcons;
 		
 		
 		//console.log(this.nodeToPos);
@@ -423,7 +423,8 @@ $.widget("ui.ssb_map", {
 		
 		
 		var feature = this.createMarker(id, lonlat, attrs);
-		this.nodeToFeature.put(id, feature);
+		//this.nodeToFeature.put(id, feature);
+		this.nodeToFeature[id] = feature;
 		//console.log("Adding feature/marker");
 		//console.log(feature);
 		
@@ -467,22 +468,26 @@ $.widget("ui.ssb_map", {
 	},
 	
 	clearItems: function() {
-		this.removeItems(_.keys(this.nodeToFeature.entries));
+		//this.removeItems(_.keys(this.nodeToFeature.entries));
+		this.removeItems(_.keys(this.nodeToFeature));
+	},
+
+	removeItem : function(id) {
+		//var feature = self.nodeToFeature.entries[id];
+		var feature = this.nodeToFeature[id];
+		if(feature) {
+			//self.markerLayer.removeMarker(feature.marker);
+			this.featureLayer.removeFeatures([feature]);
+			delete self.nodeToFeature[id];
+		}					
 	},
 	
 	removeItems : function(ids) {
-		var self = this;
-		
-		//console.log("Items removal");
-		
-		$.each(ids, function(i, id) {
-			var feature = self.nodeToFeature.entries[id];
-			if(feature) {
-				//self.markerLayer.removeMarker(feature.marker);
-				self.featureLayer.removeFeatures([feature]);
-				delete self.nodeToFeature[id];
-			}			
-		});
+    	for(var i = 0; i < ids.length; ++i) {
+    		var id = ids[i];
+    		
+    		this.removeItem(id);
+    	}
 	},
 	
 	_intersectBounds : function() {
